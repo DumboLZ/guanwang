@@ -2,9 +2,8 @@
   "name": "duel-stars-landing",
   "version": "1.0.0",
   "description": "对决之星官网后端服务",
-  "main": "api/index.js",
   "scripts": {
-    "start": "node api/index.js"
+    "dev": "node api/index.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
