@@ -3,16 +3,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 连接 MongoDB
 const MONGODB_URI = process.env.MONGODB_URI;
-mongoose.connect(MONGODB_URI)
-    .then(() => console.log('MongoDB 连接成功'))
-    .catch(err => console.error('MongoDB 连接失败:', err));
+if (MONGODB_URI) {
+    mongoose.connect(MONGODB_URI)
+        .then(() => console.log('MongoDB 连接成功'))
+        .catch(err => console.error('MongoDB 连接失败:', err));
+}
 
 // 定义预约用户模型
 const subscriberSchema = new mongoose.Schema({
@@ -26,9 +27,12 @@ const Subscriber = mongoose.model('Subscriber', subscriberSchema);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+
+// Vercel 静态文件托管由平台处理，此处无需 express.static
 
 // 预约接口
+// 注意：在 Vercel 中，文件名即路由前缀。但也支持 express 路由。
+// 我们在 vercel.json 中配置 rewrite /api/* -> /api/index.js
 app.post('/api/subscribe', async (req, res) => {
     const { email } = req.body;
 
@@ -54,6 +58,10 @@ app.post('/api/subscribe', async (req, res) => {
         console.error('保存数据失败:', err);
         res.status(500).json({ success: false, message: '服务器内部错误' });
     }
+});
+
+app.get('/api', (req, res) => {
+    res.send('API is running');
 });
 
 // 导出 app 供 Vercel 使用
