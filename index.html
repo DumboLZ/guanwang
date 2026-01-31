@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对决之星 - 官方网站</title>
+    <meta name="description" content="对决之星 - 融合自走棋、即时卡牌与肉鸽构筑的全新竖屏竞技手游。3分钟一局，随时随地开启你的传说之路。立即预约抢先体验！">
+    <meta name="keywords" content="对决之星, 自走棋, 卡牌游戏, Roguelike, 策略手游, 竖屏游戏, 竞技游戏">
+    <meta property="og:title" content="对决之星 - 官方网站">
+    <meta property="og:description" content="碎片时间，策略无限。融合自走棋、即时卡牌与肉鸽构筑的全新竞技体验。">
+    <meta property="og:image" content="assets/images/logo.png">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="assets/images/logo.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#home" class="logo">
+                <img src="assets/images/logo.png" alt="对决之星 Logo" width="50" height="50">
+            </a>
+
+            <!-- 桌面端导航链接 -->
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#features">游戏特色</a></li>
+                <li><button id="nav-subscribe-btn" class="btn-primary">立即预约</button></li>
+            </ul>
+
+            <!-- 移动端菜单按钮 -->
+            <div class="hamburger" role="button" aria-label="打开菜单">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 移动端全屏菜单 -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-header">
+            <img src="assets/images/logo.png" alt="Logo" width="40" height="40">
+            <div class="close-mobile-menu" role="button" aria-label="关闭菜单"><i class="fas fa-times"></i></div>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#features">游戏特色</a></li>
+            <li><button class="btn-primary mobile-subscribe-btn">立即预约</button></li>
+        </ul>
+    </div>
+
+    <!-- 英雄区域 -->
+    <header id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>碎片时间 <span class="highlight">策略无限</span></h1>
+            <p class="slogan-sub">融合自走棋、即时卡牌与肉鸽构筑的全新竞技体验</p>
+            <p class="description">3分钟一局的快节奏战斗，随时随地开启你的传说之路。</p>
+            <div class="cta-buttons">
+                <button id="hero-subscribe-btn" class="btn-primary large">立即预约</button>
+                <a href="#features" class="btn-secondary large">了解更多</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 游戏特色 -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="section-title">游戏特色</h2>
+            <div class="features-grid">
+                <!-- 特色1 -->
+                <div class="feature-card">
+                    <div class="icon-box">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <h3>极速竞技 · 碎片化体验</h3>
+                    <p>专为手机打造的竖屏体验。适合碎片化时间游玩，随时随地，想玩就玩。</p>
+                </div>
+                <!-- 特色2 -->
+                <div class="feature-card">
+                    <div class="icon-box">
+                        <i class="fas fa-chess-king"></i>
+                    </div>
+                    <h3>双重策略 · 运筹帷幄</h3>
+                    <p>自走棋与卡牌玩法的完美融合。棋子冲锋陷阵，我自卡牌在手，运筹帷幄。</p>
+                </div>
+                <!-- 特色3 -->
+                <div class="feature-card">
+                    <div class="icon-box">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <h3>肉鸽构筑 · 无限可能</h3>
+                    <p>构筑强化，通过合成与强化构建独一无二的流派，每一局都是全新的挑战。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logos">
+                    <img src="assets/images/logo.png" alt="对决之星 Logo" class="game-logo" width="50" height="50">
+                    <span class="divider">|</span>
+                    <img src="assets/images/studio-logo.png" alt="午睡工作室 Logo" class="studio-logo" width="100"
+                        height="50">
+                </div>
+            </div>
+            <p class="copyright">&copy; 2026 午睡工作室. All Rights Reserved. | <a href="terms.html"
+                    style="color: #666;">用户协议</a> | <a href="privacy.html" style="color: #666;">隐私政策</a> | <a
+                    href="third-party.html" style="color: #666;">第三方信息共享清单</a></p>
+        </div>
+    </footer>
+
+    <!-- 预约弹窗 -->
+    <div id="subscribe-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>加入战斗，抢先体验</h2>
+                <p>输入您的邮箱，第一时间获取测试资格与最新资讯。</p>
+            </div>
+            <form class="subscribe-form">
+                <input type="email" placeholder="请输入您的邮箱地址" required>
+                <button type="submit" class="btn-primary">立即预约</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
