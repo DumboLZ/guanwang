@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = '提交中...';
 
             try {
-                const response = await fetch('http://localhost:3000/api/subscribe', {
+                const response = await fetch('/api/subscribe', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

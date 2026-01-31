@@ -56,6 +56,12 @@ app.post('/api/subscribe', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`服务器运行在 http://localhost:${PORT}`);
-});
+// 导出 app 供 Vercel 使用
+module.exports = app;
+
+// 仅在本地运行时启动监听
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`服务器运行在 http://localhost:${PORT}`);
+    });
+}
