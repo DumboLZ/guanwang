@@ -7,12 +7,33 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 连接 MongoDB
-const MONGODB_URI = process.env.MONGODB_URI;
-if (MONGODB_URI) {
-    mongoose.connect(MONGODB_URI)
-        .then(() => console.log('MongoDB 连接成功'))
-        .catch(err => console.error('MongoDB 连接失败:', err));
+// 缓存数据库连接，防止 Serverless 环境下频繁重连或连接丢失
+let isConnected = false;
+
+async function connectToDatabase() {
+    if (isConnected) {
+        return;
+    }
+
+    const MONGODB_URI = process.env.MONGODB_URI;
+
+    // 如果环境变量缺失，报错提示
+    if (!MONGODB_URI) {
+        console.error('FATAL: MONGODB_URI 环境变量未设置');
+        throw new Error('MONGODB_URI 环境变量未设置');
+    }
+
+    try {
+        // 增加 bufferCommands: false 避免无连接时 hang 住
+        await mongoose.connect(MONGODB_URI, {
+            bufferCommands: false
+        });
+        isConnected = true;
+        console.log('MongoDB 连接成功');
+    } catch (error) {
+        console.error('MongoDB 连接失败:', error);
+        throw error;
+    }
 }
 
 // 定义预约用户模型
@@ -21,19 +42,33 @@ const subscriberSchema = new mongoose.Schema({
     date: { type: Date, default: Date.now }
 });
 
-const Subscriber = mongoose.model('Subscriber', subscriberSchema);
+// 防止模型重复编译
+const Subscriber = mongoose.models.Subscriber || mongoose.model('Subscriber', subscriberSchema);
 
 // 中间件
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Vercel 静态文件托管由平台处理，此处无需 express.static
-
 // 预约接口
 // 注意：在 Vercel 中，文件名即路由前缀。但也支持 express 路由。
 // 我们在 vercel.json 中配置 rewrite /api/* -> /api/index.js
 app.post('/api/subscribe', async (req, res) => {
+
+    // 每次请求前确保数据库连接
+    // Vercel 可能在请求之间冻结实例，导致连接状态不明确，显式调用/检查连接最稳妥
+    try {
+        await connectToDatabase();
+    } catch (error) {
+        console.error('数据库连接错误:', error);
+        // 返回详细错误信息给前端，方便调试
+        return res.status(500).json({
+            success: false,
+            message: '服务器数据库连接失败，请在 Vercel 设置 MONGODB_URI 环境变量。',
+            debug: error.message
+        });
+    }
+
     const { email } = req.body;
 
     if (!email) {
@@ -56,12 +91,16 @@ app.post('/api/subscribe', async (req, res) => {
         res.json({ success: true, message: '预约成功！' });
     } catch (err) {
         console.error('保存数据失败:', err);
-        res.status(500).json({ success: false, message: '服务器内部错误' });
+        return res.status(500).json({
+            success: false,
+            message: '保存数据时发生服务器错误',
+            debug: err.message
+        });
     }
 });
 
 app.get('/api', (req, res) => {
-    res.send('API is running');
+    res.send('API is running. MongoDB status: ' + (isConnected ? 'Connected' : 'Disconnected'));
 });
 
 // 导出 app 供 Vercel 使用
