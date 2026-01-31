@@ -398,11 +398,13 @@ footer {
 
 .game-logo {
     height: 50px;
+    width: auto;
     opacity: 0.8;
 }
 
 .studio-logo {
     height: 50px;
+    width: auto;
     opacity: 0.8;
 }
 
